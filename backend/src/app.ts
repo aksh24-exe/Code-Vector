@@ -7,7 +7,13 @@ import productRoutes from './modules/product/routes/product.routes';
 
 const app = express();
 
-app.use(cors({ origin: env.CORS_ORIGIN }));
+app.use(
+  cors({
+    origin: env.CORS_ORIGIN.includes(',')
+      ? env.CORS_ORIGIN.split(',').map((origin) => origin.trim())
+      : env.CORS_ORIGIN,
+  })
+);
 app.use(express.json());
 
 app.get('/health', (_req, res) => {
